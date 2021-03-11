@@ -7,17 +7,17 @@
 #include <DHT.h>  
 #include <DallasTemperature.h>
 #include <OneWire.h>
-//#include <Wire.h>
-//#include <LiquidCrystal_I2C.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
 //#include <DS1302RTC.h>
 #include <TimeLib.h>
 #include <Streaming.h>
 
 // Init the DS1302
 // Set pins:  CE, IO,CLK
-//DS1302RTC RTC(6, 7, 8);
-//LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
-//LiquidCrystal_I2C lcd(0x27,16,2);
+DS1302RTC RTC(6, 7, 8);
+LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
+LiquidCrystal_I2C lcd(0x27,16,2);
 
 unsigned long teraz=millis();
 unsigned long czas=teraz;
