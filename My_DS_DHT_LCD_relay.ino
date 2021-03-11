@@ -15,7 +15,7 @@
 
 // Init the DS1302
 // Set pins:  CE, IO,CLK
-DS1302RTC RTC(6, 7, 8);
+//DS1302RTC RTC(6, 7, 8);
 LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 LiquidCrystal_I2C lcd(0x27,16,2);
 
