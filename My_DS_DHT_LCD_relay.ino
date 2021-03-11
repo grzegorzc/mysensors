@@ -84,9 +84,9 @@ void setup()
   analogWrite(lcdLed, lightValue);
 //  Serial.println(lightValue);
 //Inicjalizacja zegara RTC, tutaj trzeba dostosować kod zależnie od posiadanego modułu  
-//  lcd.begin(16,2);
-//  lcd.init();
-//  lcd.backlight();
+  lcd.begin(16,2);
+  lcd.init();
+  lcd.backlight();
 /*  lcd.print("RTC activated");
   delay(1000);
   lcd.clear();
@@ -111,17 +111,17 @@ void setup()
     lcd.print(" FAIL!");
   delay ( 1000 );
 */
-////  lcd.clear();
+//  lcd.clear();
   // Request latest time from controller at startup
-////  lcd.print("Pobieram czas...");
-////  lcd.print("...z kontrolera");
+  lcd.print("Pobieram czas...");
+  lcd.print("...z kontrolera");
   requestTime(receiveTime);
 //  Serial.println("Pobieram czas...");
 
 //  sensors.begin();
 
   // Startup and initialize MySensors library. Set callback for incoming messages. 
-//  begin(NULL,NODE_ID,false);
+  begin(NULL,NODE_ID,false);
   
   // Send the Sketch Version Information to the Gateway
   sendSketchInfo("Dallas_DHT22_LCD_relay", "2.3.1");
@@ -148,16 +148,16 @@ void setup()
   delay(2000);
 ////  lcd.clear();
   lastProbe = millis();
-//  incomingMessage();
+  incomingMessage();
 
 }
 
 // This is called when a new time value was received
 void receiveTime(unsigned long controllerTime) {
   // Ok, set incoming time 
-//  controllerTime=controllerTime; //Dodajemy latem 2h a zimą 1h bo kontroler podaje czas UTC
-//  lcd.print(controllerTime);
-////  Serial.println(controllerTime);
+  controllerTime=controllerTime; //Dodajemy latem 2h a zimą 1h bo kontroler podaje czas UTC
+  lcd.print(controllerTime);
+//  Serial.println(controllerTime);
   setTime(controllerTime);
 //  RTC.set(controllerTime); // this sets the RTC to the time from controller - which we do want periodically
   timeReceived = true;
@@ -168,7 +168,7 @@ void loop()
 {  
   unsigned long now = millis();
 
- //if (lastTimeReceived < now-3600000) gw.requestTime(receiveTime); //aktualizacja czasu co godzinę
+ if (lastTimeReceived < now-3600000) gw.requestTime(receiveTime); //aktualizacja czasu co godzinę
 
 //Automatyczna regulacja podświetlenia
   lightValue = analogRead(lightPin);
@@ -177,7 +177,7 @@ void loop()
   // in case the sensor value is outside the range seen during calibration
   lightValue = constrain(lightValue, 0, 255);
   // fade the LCD using the calibrated value:
-//  analogWrite(lcdLed, lightValue);
+  analogWrite(lcdLed, lightValue);
   analogWrite(lcdLed, 200);
   // Process incoming messages (like config from server)
 //Tę część wykonujemy co SLEEP_TIME, tu akurat odczytujemy czujniki i wysyłamy do kontrolera
@@ -221,7 +221,7 @@ void loop()
     float humidity = dht.getHumidity();
     if (isnan(humidity)) {
 //        Serial.println("Błąd odczytu wilgotn. z DHT");
-//    } else if (humidity != lastHum) {
+        } else if (humidity != lastHum) {
     } else {
         lastHum = humidity;
         send(msgHum.set(humidity, 1));
@@ -229,13 +229,13 @@ void loop()
 //        Serial.println(humidity);
     }
 
-//    int lightLevel = analogRead(LIGHT_SENSOR_ANALOG_PIN); 
+    int lightLevel = analogRead(LIGHT_SENSOR_ANALOG_PIN); 
 //    Serial.print("Light: ");
 //    Serial.println(lightValue);
-//    if (lightValue != lastLightLevel) {
+    if (lightValue != lastLightLevel) {
       send(msgLight.set(lightValue));
       lastLightLevel = lightValue;
-//    }
+    }
 
   //Jeśli nie pobrano czasu z kontrolera to odpytuj co SLEEP_TIME
 requestTime(receiveTime);
@@ -257,25 +257,25 @@ requestTime(receiveTime);
       x=0;
     }
     //Tu wyświetlamy czas i datę
-////    lcd.clear();
-////    lcd.setCursor(0, 1);
+    lcd.clear();
+    lcd.setCursor(0, 1);
     print2digits(hour());
-////    lcd.print(":");
+    lcd.print(":");
     print2digits(minute());
-////    lcd.print(":");
-////    print2digits(second());
+    lcd.print(":");
+    print2digits(second());
     // Display date in the lower right corner
-////    lcd.setCursor(6, 1);
-    //  lcd.print(" ");
+    lcd.setCursor(6, 1);
+      lcd.print(" ");
     print2digits(day());
-////    lcd.print("/");
+    lcd.print("/");
     print2digits(month());
-////    lcd.print("/");
-////    lcd.print(year());
+    lcd.print("/");
+    lcd.print(year());
 //    Display abbreviated Day-of-Week in the lower left corner
-//    lcd.print(dayShortStr(weekday()));
+    lcd.print(dayShortStr(weekday()));
     
-/****    if (dispOut==0){  
+    if (dispOut==0){  
       lcd.setCursor(0, 0);
       lcd.print("i:");
       lcd.print(lastTemp,1);
@@ -290,14 +290,14 @@ requestTime(receiveTime);
       lcd.print("% ");
       lcd.print(lastHumOut,0);
       lcd.print("%");
-    }****/
-//lcd.setCursor(15,0);
-//lcd.print(x); 
+    }
+lcd.setCursor(15,0);
+lcd.print(x); 
     // Warning!
-//    if(timeStatus() != timeSet) {
-//      lcd.setCursor(0, 1);
-//      lcd.print(F("RTC ERROR: SYNC!"));
-//    }
+    if(timeStatus() != timeSet) {
+      lcd.setCursor(0, 1);
+      lcd.print(F("RTC ERROR: SYNC!"));
+    }
   }
 
 //gw.sleep(SLEEP_TIME); //Nie usypiamy noda bo ma działać cały czas
@@ -305,17 +305,17 @@ requestTime(receiveTime);
 }
 
 void printDigits(int digits){
-////  if(digits < 10)
-////    lcd.print('0');
-////  lcd.print(digits);
+  if(digits < 10)
+    lcd.print('0');
+  lcd.print(digits);
 }
 
 void print2digits(int number) {
   // Output leading zero
   if (number >= 0 && number < 10) {
-////    lcd.write('0');
+    lcd.write('0');
   }
-////  lcd.print(number);
+  lcd.print(number);
 }
 
 //Odbieramy odczyty z czujnika zewnętrznego (NODE_ID 3)
