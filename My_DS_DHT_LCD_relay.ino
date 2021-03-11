@@ -1,4 +1,4 @@
-#define MY_NODE_ID 2
+//#define MY_NODE_ID 2
 #define MY_RADIO_NRF24
 #define MY_REPEATER_FEATURE
 #include <MySensors.h>
@@ -16,14 +16,14 @@
 // Init the DS1302
 // Set pins:  CE, IO,CLK
 //DS1302RTC RTC(6, 7, 8);
-LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
+//LiquidCrystal_I2C lcd(0x27, 2, 1, 0, 4, 5, 6, 7, 3, POSITIVE);  // Set the LCD I2C address
 LiquidCrystal_I2C lcd(0x27,16,2);
 
 unsigned long teraz=millis();
 unsigned long czas=teraz;
 
 //na sztywno ustawione MySensors NODE_ID
-//#define NODE_ID 2
+#define NODE_ID 2
 
 #define CHILD_ID_HUM 101  //id czujnika wilgotności z dht
 #define CHILD_ID_TEMP 100 //id temperatury z dht
@@ -35,6 +35,7 @@ unsigned long czas=teraz;
 #define HUMIDITY_SENSOR_DIGITAL_PIN 3 //Do tego pinu podłączamy DHT22
 #define ONE_WIRE_BUS 4 // A do tego 1-wire DS18B20
 #define MAX_ATTACHED_DS18B20 16 //maksymalna ilość czujników na 1-wire
+#define LIGHT_SENSOR_ANALOG_PIN A0
 
 unsigned long SLEEP_TIME = 300000; // Sleep time between reads (in milliseconds)
 OneWire oneWire(ONE_WIRE_BUS);
@@ -121,10 +122,10 @@ void setup()
 //  sensors.begin();
 
   // Startup and initialize MySensors library. Set callback for incoming messages. 
-  begin(NULL,NODE_ID,false);
+//  begin(NULL,NODE_ID,false);
   
   // Send the Sketch Version Information to the Gateway
-  sendSketchInfo("Dallas_DHT22_LCD_relay", "2.3.1");
+  sendSketchInfo("Dallas_DHT22_LCD_relay", "2.3.2");
 
   dht.setup(HUMIDITY_SENSOR_DIGITAL_PIN); 
 
@@ -148,7 +149,7 @@ void setup()
   delay(2000);
 ////  lcd.clear();
   lastProbe = millis();
-  incomingMessage();
+//  incomingMessage();
 
 }
 
@@ -168,7 +169,7 @@ void loop()
 {  
   unsigned long now = millis();
 
- if (lastTimeReceived < now-3600000) gw.requestTime(receiveTime); //aktualizacja czasu co godzinę
+// if (lastTimeReceived < now-3600000) gw.requestTime(receiveTime); //aktualizacja czasu co godzinę
 
 //Automatyczna regulacja podświetlenia
   lightValue = analogRead(lightPin);
