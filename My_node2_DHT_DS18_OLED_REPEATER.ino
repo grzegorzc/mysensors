@@ -320,7 +320,7 @@ void receive(const MyMessage &message) {
 
 
 
-/// Tutaj mamy przykłądowe testy grafiki OLED
+/// Tutaj mamy przykładowe testy grafiki OLED
 
 /**
 void testdrawline() {
